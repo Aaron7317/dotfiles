@@ -81,6 +81,12 @@ keys = [
     Key([], 'XF86AudioMute', lazy.spawn("amixer set Master toggle")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl -s set +10%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl -s set 10%-")),
+
+    # Toggle Fullscreen
+    Key([mod], "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen",
+    ),
 ]
 
 groups = [Group(i) for i in "123456789"]
