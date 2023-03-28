@@ -1,3 +1,7 @@
+function get_setup(name)
+  return string.format('require("setup/%s")', name)
+end
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
