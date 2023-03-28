@@ -1,25 +1,20 @@
--- Management and Installation of plugins for NeoVim
-
-vim.cmd('packadd termdebug')
-
-function get_setup(name)
-  return string.format('require("setup/%s")', name)
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
 
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  vim.cmd [[packadd packer.nvim]]
-end
-
-vim.cmd [[packadd packer.nvim]]
+local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use({'wbthomason/packer.nvim'})
-
-  -- File Management
+  use 'wbthomason/packer.nvim'
+  
+   -- File Management
   use({'nvim-tree/nvim-tree.lua', config = get_setup("nvim-tree")})
 
   -- Useful Misc
@@ -66,4 +61,10 @@ return require('packer').startup(function(use)
   --use({"williamboman/mason.nvim", config = get_setup("mason")})
   --use({"williamboman/mason-lspconfig.nvim", config = get_setup("mason-lspconfig")})
   use({"neovim/nvim-lspconfig", config = get_setup("nvim-lspconfig")})
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
