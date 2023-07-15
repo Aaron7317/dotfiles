@@ -31,6 +31,9 @@ from libqtile.lazy import lazy
 import os
 import subprocess
 
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration
+
 mod = "mod4"              # Sets mod key to SUPER/WINDOWS
 terminal = "alacritty"      # My terminal of choice
 browser = "brave" # My browser of choice
@@ -68,6 +71,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "p", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
